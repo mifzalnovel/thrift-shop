@@ -4,7 +4,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="pull-right" >
-      <a style="color:white; font-size: 30px;" href="index.html">Thrift Shop</a>
+      <a style="color:white; font-size: 30px;" href="{{ route('home') }}">Thrift Shop</a>
     </div> 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
