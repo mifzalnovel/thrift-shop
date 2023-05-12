@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,20 +18,6 @@ class RegisterController extends Controller
     
     public function actionregister(Request $request)
     {
-        // Session::flash('username', $request->username);
-        // Session::flash('email', $request->email);
-        // $request->validate([
-        //     'email' => 'required',
-        //     'username' => 'required|unique:users',
-        //     'password' => 'required',
-        // ]);
-        // $user = new User([
-        //     'email' => '$request->email',
-        //     'username' => '$request->username',
-        //     'password' => Hash::make($request->username)
-        // ]);
-        // $user->save();
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -39,14 +26,12 @@ class RegisterController extends Controller
             // 'role' => $request->role
         ]);
 
-        // Session::flash('message', 'Register Berhasil. Akun Anda sudah Aktif silahkan Login menggunakan username dan password.');
-        // return redirect('register');
-        // $user = [
-        //     'name' => $request->input('name'),
-        //     'username' => $request->input('username'),
-        //     'email' => $request->input('email'),
-        //     'password' => $request->input('password'),
-        // ];
+        $userDetail = UserProfile::create([
+            'user_id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email
+        ]);
+        $userDetail->save();
 
         return redirect('login');
     }

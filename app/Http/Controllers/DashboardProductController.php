@@ -64,7 +64,6 @@ class DashboardProductController extends Controller
         return view('dashboard.product.edit', [
             'product' => $product
         ]);
-
     }
 
     /**

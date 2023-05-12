@@ -18,13 +18,16 @@
               <h3>{{ $product->name }}</h3>
               <div class="product-description" data-name="Check Coat" data-price="50000">
                 <p class="product-price">{{ $product->price }}</p>
-                {{-- <form class="add-to-cart" action="cart.html" method="post">
-                  <div>
+                <form class="add-to-cart" action="{{ route('cart.add', $product->id) }}" method="post">
+                  @csrf
+                  <div class="d-flex flex-row justify-content-center">
+                    <input type="hidden" id="id" name="id" value="{{ $product->id }}" />
                     <label for="quantity">Quantity</label>
-                    <input type="text" name="quantity" id="quantity" class="qty"/>
+                    <input name="quantity" id="quantity" type="number" class="col-4 mx-2 my-2 form-control quantity"/>
                   </div>
-                </form> --}}
-                <p class="btn"><a href="{{ url('cart/add/'.$product->id) }}" class="btn border-0 bg-dark text-center" role="button">Add to cart</a> </p>
+                  <p><input type="submit" value="Add to cart" class="btn" /></p>
+                </form>
+                {{-- <p class="btn"><a href="{{ url('cart/add/'.$product->id) }}" class="btn border-0 bg-dark text-center" role="button">Add to cart</a> </p> --}}
               </div>
             </div>
           </div>

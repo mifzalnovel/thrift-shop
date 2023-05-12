@@ -1,9 +1,8 @@
-@extends('layout.main')
+@extends('layout.dmain')
 
-@section('content')
+@section('dcontent')
 
 <div id="site">
-	
 	<div id="content">
 		<h1>Checkout</h1>
 		@if(session('cart'))
@@ -52,9 +51,9 @@
 						<strong>Total</strong>: <span id="stotal">$ {{ $total += 50000 }}</span>
 					</p>
 				</div>
-		<form action="{{ route('update.user.detail.profile', $userDetail->id) }}" method="post" id="checkout-order-form" style="background-color: skyblue">
+		<form action="" method="post" id="checkout-order-form" style="background-color: skyblue">
       @csrf
-		 	<h2>Your Details</h2>
+		 	<h2>Details</h2>
 		 	<fieldset id="fieldset-billing">
 		 		<legend>Billing</legend>
 		 		<div>

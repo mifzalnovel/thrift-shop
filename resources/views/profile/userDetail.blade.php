@@ -1,57 +1,9 @@
 @extends('layout.main')
 
 @section('content')
-
 <div id="site">
-	
 	<div id="content">
-		<h1>Checkout</h1>
-		@if(session('cart'))
-			<table id="checkout-cart" class="shopping-cart">
-			  <thead>
-					<tr>
-						<th scope="col">Item</th>
-						<th scope="col">Price</th>
-						<th scope="col">Qty</th>
-						<th scope="col">total</th>
-					</tr>
-			  </thead>
-			  <tbody>
-          <?php 
-						$total = 0; 
-						$sumQuantity = 0;
-					?>
-					@foreach(session('cart') as $id => $details)
-						<?php 
-							$total += $details['price'] * $details['quantity'];
-							$sumQuantity += $details['quantity']; 
-						?>
-						<tr>
-							<td data-th="Product">
-								<div class="row">
-									<div class="col-sm-9">
-										<h4 class="nomargin">{{ $details['name'] }}</h4>
-									</div>
-								</div>
-							</td>
-							<td data-th="Price">${{ $details['price'] }}</td>
-							<td data-th="Quantity">
-									<input type="number" value="{{ $details['quantity'] }}" class="form-control quantity" readonly/>
-							</td>
-							<td data-th="Subtotal" class="text-center">${{ $details['price'] * $details['quantity'] }}</td>
-						</tr>
-						@endforeach
-					</tbody>
-				</table>
-				@endif
-				<div id="pricing">
-					<p id="shipping">
-						<strong>Shipping</strong>: <span id="sshipping"> $ {{ "50000" }}</span>
-					</p>
-					<p id="sub-total">
-						<strong>Total</strong>: <span id="stotal">$ {{ $total += 50000 }}</span>
-					</p>
-				</div>
+		<h1>Profile</h1>
 		<form action="{{ route('update.user.detail.profile', $userDetail->id) }}" method="post" id="checkout-order-form" style="background-color: skyblue">
       @csrf
 		 	<h2>Your Details</h2>
@@ -123,5 +75,4 @@
 		</form>
 	</div>
 </div>
-
 @endsection
