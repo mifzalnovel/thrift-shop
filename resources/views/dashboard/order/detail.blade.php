@@ -2,16 +2,19 @@
 
 @section('dcontent')
 
-<div id="site">
-	<div id="content">
-		<h1>Checkout</h1>
-		<table id="checkout-cart" class="shopping-cart">
+<div class="border-bottom mb-4">
+  <h2>Orders</h2>
+</div>
+
+<div class="mt-2 col-lg-10 mb-5">
+    <table class="table">
 			<thead>
 				<tr>
-					<th scope="col">Item</th>
+					<th scope="col">#</th>
+					<th scope="col">Name</th>
 					<th scope="col">Price</th>
-					<th scope="col">Qty</th>
-					<th scope="col">total</th>
+					<th scope="col">Quantity</th>
+					<th scope="col">Total</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -25,6 +28,7 @@
 						$sumQuantity += $cart->quantity; 
 					?>
 					<tr>
+						<th>{{ $loop->iteration }}</th>
 						<td data-th="Product">
 							<div class="row">
 								<div class="col-sm-9">
@@ -34,13 +38,26 @@
 						</td>
 						<td data-th="Price">${{ $cart->price }}</td>
 						<td data-th="Quantity">
-								<input type="number" value="{{ $cart->quantity }}" class="form-control quantity" readonly/>
+								<input type="number" value="{{ $cart->quantity }}" class="form-control quantity" disabled/>
 						</td>
 						<td data-th="Subtotal" class="text-center">${{ $cart->price * $cart->quantity }}</td>
 					</tr>
 				@endforeach
 			</tbody>
 		</table>
+		{{-- <table id="checkout-cart" class="shopping-cart">
+			<thead>
+				<tr>
+					<th scope="col">Item</th>
+					<th scope="col">Price</th>
+					<th scope="col">Qty</th>
+					<th scope="col">total</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table> --}}
 
 		<div id="pricing">
 			<p id="shipping">
@@ -114,6 +131,7 @@
 		<hr>
 		<h2>Status</h2>
 		<form action="/dashboard/order/{{ $order->id }}" method="post" class="col-8">
+			@csrf
 			@method('put')
 			<div class="mb-3">
 				<label for="status" class="form-label">Status</label>
@@ -124,7 +142,8 @@
 					<option value="Shipped">Shipped</option>
 					<option value="Delivered">Delivered</option>
 				</select>
-				<button type="submit" class="btn btn-primary">Update Status</button>
+			</div>
+			<button type="submit" class="btn btn-primary">Update Status</button>
 		</form>
 	</div>
 </div>

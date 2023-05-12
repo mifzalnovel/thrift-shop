@@ -28,9 +28,6 @@
             <a href="/dashboard/order/{{ $order->id }}" class="text-decoration-none">
               <span class="badge text-bg-info">Detail</span>
             </a>
-            <a href="/dashboard/order/{{ $order->id }}/edit" class="text-decoration-none">
-              <span class="badge text-bg-warning">Edit</span>
-            </a>
             <form action="/dashboard/order/{{ $order->id }}" method="post" class="d-inline">
               @method('delete')
               @csrf

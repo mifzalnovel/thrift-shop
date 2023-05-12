@@ -65,14 +65,20 @@ class DashboardOrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        $rules = [
-            'status' => 'required|in:PENDING,SHIPPING,SUCCESS,FAILED,CANCELLED'
-        ];
+        $order = Order::findOrFail($order->id);
+        $order->status = $request->input('status');
+        // dd($order->status);
+        $order->save();
+        // return response()->json($shipping);
 
-        $validatedData = $request->validate($rules);
+        // $rules = [
+        //     'status' => 'required|in:PENDING,SHIPPING,SUCCESS,FAILED,CANCELLED'
+        // ];
 
-        Order::where('id', $order->id)
-            ->update($validatedData);
+        // $validatedData = $request->validate($rules);
+
+        // Order::where('id', $order->id)
+        //     ->update($validatedData);
 
         // $order->update($validatedData);
 
