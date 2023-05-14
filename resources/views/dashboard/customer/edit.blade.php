@@ -36,11 +36,6 @@
 					<option value="superadmin">Superadmin</option>
 					<option value="admin">Admin</option>	
 					<option value="customer">Customer</option>
-					{{-- <option value="{{ $order->status }}">{{ $order->status }}</option>
-					<option value="Pending">Pending</option>
-					<option value="Processing">Processing</option>
-					<option value="Shipped">Shipped</option>
-					<option value="Delivered">Delivered</option> --}}
 				</select>
 			</div>
 			<button type="submit" class="btn btn-primary">Update Status</button>
