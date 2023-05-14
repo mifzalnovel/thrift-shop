@@ -64,6 +64,8 @@ Route::controller(UserProfileController::class)->middleware('auth')->group(funct
     Route::get('/userdetailprofile', 'detailUser')->name('user.detail.profile');
     Route::patch('/userdetailprofile/{user}', 'updateDetailUser')->name('update.user.detail.profile');
     Route::post('actionuserprofile', 'actionUserProfile')->name('actionuserprofile');
+    Route::get('orderUser', 'orderUser')->name('order.user');
+    Route::get('detailOrderUser/{id}', 'detailOrderUser')->name('detail.order.user');
 });
 
 Route::controller(CartController::class)->middleware('auth')->group(function () {

@@ -15,7 +15,9 @@
         <th scope="col">Username</th>
         <th scope="col">Email</th>
         <th scope="col">Level</th>
-        <th scope="col">Action</th>
+        @if (Auth::user()->role == 'superadmin')
+          <th scope="col">Action</th>
+        @endif
       </tr>
     </thead>
     <tbody>
@@ -26,11 +28,13 @@
           <td>{{ $user->username }}</td>
           <td>{{ $user->email }}</td>
           <td>{{ $user->name }}</td>
+          @if (Auth::user()->role == 'superadmin')
           <td>
             <a href="/dashboard/customer/{{ $user->id }}/edit" class="text-decoration-none">
               <span class="badge text-bg-warning">Edit</span>
             </a>
           </td>
+          @endif
         </tr>
       @endforeach
     </tbody>

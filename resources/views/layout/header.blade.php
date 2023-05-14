@@ -26,15 +26,23 @@
         <li class="nav-item">
           <a style="color:white;" class="nav-link" href="{{ route('contact') }}">Contact</a>
         </li>
-        <li class="nav-item">
-          <a style="color:white;" class="nav-link" href="{{ route('login') }}">Login</a>
-        </li>
-        <li class="nav-item">
-          <a style="color:white;" class="nav-link" href="{{ route('actionlogout') }}">Logout</a>
-        </li>
-        <li class="nav-item">
-          <a style="color:white;" class="nav-link" href="{{ route('user.profile') }}">Profile</a>
-        </li>
+        @if (Auth::user())
+          @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
+            <li class="nav-item">
+              <a style="color:white;" class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+            </li>
+          @endif
+          <li class="nav-item">
+            <a style="color:white;" class="nav-link" href="{{ route('user.profile') }}">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a style="color:white;" class="nav-link" href="{{ route('actionlogout') }}">Logout</a>
+          </li>
+        @else
+          <li class="nav-item">
+            <a style="color:white;" class="nav-link" href="{{ route('login') }}">Login</a>
+          </li>
+        @endif
       </ul>
     </div>
   </nav>

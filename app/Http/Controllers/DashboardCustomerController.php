@@ -57,15 +57,19 @@ class DashboardCustomerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $rules = [
-            'roles' => 'required',
-        ];
-
-        $validatedData = $request->validate($rules);
-
         $user = User::findOrFail($id);
+        $user->role = $request->input('role');
+        $user->save();
+        
+        // $rules = [
+        //     'roles' => 'required',
+        // ];
 
-        $user->update($validatedData);
+        // $validatedData = $request->validate($rules);
+
+        // $user = User::findOrFail($id);
+
+        // $user->update($validatedData);
 
         return redirect('/dashboard/customer');
     }

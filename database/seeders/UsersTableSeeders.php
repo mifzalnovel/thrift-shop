@@ -16,10 +16,11 @@ class UsersTableSeeders extends Seeder
     {
         //menambahkan user db
         DB::table('users')->insert([
-            'name' => 'tes',
-            'username' => 'tes',
+            'name' => 'superadmin',
+            'username' => 'superadmin',
             'email' => 'tes@gmail.com',
-            'password' => Hash::make('123456')
+            'password' => Hash::make('123456'),
+            'role' => 'superadmin'
         ]);
     }
 }

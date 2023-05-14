@@ -23,7 +23,7 @@ class RegisterController extends Controller
             'email' => $request->email,
             'username' => $request->username,
             'password' => Hash::make($request->password),
-            // 'role' => $request->role
+            'role' => $request->role
         ]);
 
         $userDetail = UserProfile::create([
