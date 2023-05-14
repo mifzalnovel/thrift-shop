@@ -68,7 +68,7 @@ class CartController extends Controller
                     'quantity' => $request->quantity,
                 ]);
                 $cart->save();
-                return redirect()->back();
+                return redirect()->back()->with('success', 'Add Product Successfully');
             }
     
             if(!$cart) {
