@@ -4,6 +4,11 @@
 
 <div class="d-flex justify-content-center">
     <div class="mt-2 col-lg-10 mb-5">
+        @if(session('success'))
+        <div class="alert alert-success text-center" role="alert">
+          {{session('success')}}
+        </div>
+      @endif
         <div class="border-bottom mb-4">
             <h2>Cart</h2>
         </div>
@@ -42,10 +47,20 @@
                         </td>
                         <td class="text-center col-lg-2">${{ $price }}</td>
                         <td >
-                            <input type="number" value="{{ $cart->quantity }}" class="form-control quantity" disabled/>
+                            <input type="number" name="quantity" id="quantity" for="quantity" value="{{ $cart->quantity }}" class="form-control quantity"/>
                         </td>
                         <td class="text-center col-lg-4">${{ $cart->price * $cart->quantity }}</td>
                         <td class="text-center col-lg-4">
+                            <form action="{{ route('cart.edit', $cart) }}" method="post" class="d-inline">
+                                {{-- @method('patch') --}}
+                                @csrf
+                                <button type="submit" class="badge btn-warning border-0">
+                                    <span>Update</span>
+                                </button>
+                            </form>
+                            {{-- <a href="{{ route('cart.edit', $cart->id) }}">
+                                <span>Update</span>
+                            </a> --}}
                             <form action="{{ route('cart.destroy', $cart->id) }}" method="post"  class="d-inline" data-token="{{csrf_token()}}">
                                 @method('delete')
                                 @csrf
