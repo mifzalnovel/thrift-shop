@@ -13,8 +13,11 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $mens = Product::where('category', 'men')->get();
+        $womens = Product::where('category', 'women')->get();
         return view('product', [
-            'products' => Product::all()
+            'mens' => $mens,
+            'womens' => $womens, 
         ]);
     }
 

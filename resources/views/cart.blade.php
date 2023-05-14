@@ -39,7 +39,7 @@
                         </td>
                         <td class="text-center col-lg-2">${{ $cart->price }}</td>
                         <td >
-                            <input type="number" value="{{ $cart->quantity }}" class="form-control quantity"/>
+                            <input type="number" value="{{ $cart->quantity }}" class="form-control quantity" disabled/>
                         </td>
                         <td class="text-center col-lg-4">${{ $cart->price * $cart->quantity }}</td>
                         <td class="text-center col-lg-4">
@@ -66,7 +66,7 @@
         </div>
         <hr>
         <div class="d-flex justify-content-end">
-            <a href="{{ route('checkout') }}" class="btn btn-primary">Checkout</a>
+            <a href="{{ route('checkout') }}" class="btn btn-primary border-0">Checkout</a>
         </div>
     </div>
 </div>

@@ -11,10 +11,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $products = Cart::all()->sortByDesc('quantity')->take(5);
-        // $products = Product::all()->sortByDesc('created_at')->take(5);
-        // $products = collect($products)->count;
-        // $products = $products->sortByDesc('');
+        $products = Cart::all()->sortByDesc('created_at')->take(5);
         $users = User::all()->take(5);
         return view('dashboard.dashboard', compact('products', 'users'));
     }

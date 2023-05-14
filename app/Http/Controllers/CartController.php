@@ -32,10 +32,9 @@ class CartController extends Controller
     {
         $user = Auth::user();
         $userDetail = UserProfile::where('user_id', $user->id)->first();
-        $cart = session()->get('cart');
+        $carts = Cart::where('user_id', $user->id)->get();
         $locations = Location::all();
-        session()->put('cart', $cart);
-        return view('checkout', compact('locations', 'userDetail'));
+        return view('checkout', compact('locations', 'userDetail', 'carts'));
     }
 
     public function add(Request $request, $id)
@@ -178,7 +177,7 @@ class CartController extends Controller
             $product->decrement('quantity', $item['quantity']);
         }
 
-            session()->put('checkout', $itemOrdered);
+            // session()->put('checkout', $itemOrdered);
             return redirect()->back();
         }
 
@@ -231,7 +230,7 @@ class CartController extends Controller
 
     public function updateDetailChekcout(Request $request): RedirectResponse
     {
-        dd($request);
+        // dd($request);
         $user = Auth::user();
         $userDetail = UserProfile::where('user_id', $user->id)->first();
 
@@ -259,7 +258,7 @@ class CartController extends Controller
         ]);
         $order->save();
 
-        return redirect('home');
+        return redirect('/');
     }
 
 
