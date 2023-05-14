@@ -9,25 +9,24 @@
         <h2>Women's Clothes</h2>
       </div>
       <div class="row">	
-        @foreach($products as $product)	
+        @foreach($womens as $women)
           <div class="col-md-3">
             <div class="product-top">
-              <img src="{{ asset('storage/' . $product->image) }}">
+              <img src="{{ asset('storage/' . $women->image) }}">
             </div>
             <div class="product-bottom text-center">
-              <h3>{{ $product->name }}</h3>
-              <div class="product-description" data-name="Check Coat" data-price="50000">
-                <p class="product-price">{{ $product->price }}</p>
-                <form class="add-to-cart" action="{{ route('cart.add', $product->id) }}" method="post">
+              <h3>{{ $women->name }}</h3>
+              <div class="product-description">
+                <p class="product-price">{{ $women->price }}</p>
+                <form class="add-to-cart" action="{{ route('cart.add', $women->id) }}" method="post">
                   @csrf
                   <div class="d-flex flex-row justify-content-center">
-                    <input type="hidden" id="id" name="id" value="{{ $product->id }}" />
+                    <input type="hidden" id="id" name="id" value="{{ $women->id }}" />
                     <label for="quantity">Quantity</label>
                     <input name="quantity" id="quantity" type="number" class="col-4 mx-2 my-2 form-control quantity"/>
                   </div>
                   <p><input type="submit" value="Add to cart" class="btn" /></p>
                 </form>
-                {{-- <p class="btn"><a href="{{ url('cart/add/'.$product->id) }}" class="btn border-0 bg-dark text-center" role="button">Add to cart</a> </p> --}}
               </div>
             </div>
           </div>
@@ -44,30 +43,28 @@
         <h2>Men's Clothes</h2>
       </div>
       <div class="row">			
-        <div class="col-md-3">
-        <div class="product-top">
-          <img src="images/ladies/2054548-04-2.jpg">
-        </div>
-        
-        
-        <div class="product-bottom text-center">
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star-half-o"></i>
-          <h3>Check Coat</h3>
-          <div class="product-description" data-name="Check Coat" data-price="50000">
-            <p class="product-price">300,000</p>
-            <form class="add-to-cart" action="cart.html" method="post">
-              <div>
-                <label for="qty-2">Quantity</label>
-                <input type="text" name="qty-2" id="qty-2" class="qty" value="1" />
+        @foreach($mens as $men)
+          <div class="col-md-3">
+            <div class="product-top">
+              <img src="{{ asset('storage/' . $men->image) }}">
+            </div>
+            <div class="product-bottom text-center">
+              <h3>{{ $men->name }}</h3>
+              <div class="product-description">
+                <p class="product-price">{{ $men->price }}</p>
+                <form class="add-to-cart" action="{{ route('cart.add', $men->id) }}" method="post">
+                  @csrf
+                  <div class="d-flex flex-row justify-content-center">
+                    <input type="hidden" id="id" name="id" value="{{ $men->id }}" />
+                    <label for="quantity">Quantity</label>
+                    <input name="quantity" id="quantity" type="number" class="col-4 mx-2 my-2 form-control quantity"/>
+                  </div>
+                  <p><input type="submit" value="Add to cart" class="btn" /></p>
+                </form>
               </div>
-              <p><input type="submit" value="Add to cart" class="btn" /></p>
-            </form>
+            </div>
           </div>
-        </div>
+        @endforeach
       </div>
     </div>
   </div>

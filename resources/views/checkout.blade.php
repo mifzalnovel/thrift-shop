@@ -54,6 +54,16 @@
                 <strong>Total</strong>: <span id="stotal">$ {{ $total }}</span>
             </p>
         </div>
+
+				<div>
+					<p>
+						Silahkan lakukan pembayaran ke <strong>Bank ABC</strong><br>
+						<strong>No Rekening 1234567890 (A/N Admin)</strong><br>
+						<strong>Total Pembayaran</strong>: <span id="stotal"><strong> $ {{ $total + 50000 }}</strong></span>
+						Setelah melakukan pembayaran Silahkan lakukan konfirmasi pembayaran ke no WA <strong>081234567890</strong>
+
+					</p>
+				</div>
         <hr>
         <form action="{{ route('update.detail.checkout', $userDetail->id) }}" method="post" id="checkout-order-form" style="background-color: skyblue">
             @method('patch')

@@ -35,12 +35,12 @@ Route::get('/aboutUs', [AboutUsController::class, 'index'])->name('aboutUs');
 Route::get('/ourTeam', [OurTeamController::class, 'index'])->name('ourTeam');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::resource('dashboard/product', DashboardProductController::class);
-Route::resource('dashboard/order' , DashboardOrderController::class);
-Route::get('dashboard/report', [DashboardReportController::class, 'index'])->name('dashboard.report');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
+Route::resource('dashboard/product', DashboardProductController::class)->middleware('auth');
+Route::resource('dashboard/order' , DashboardOrderController::class)->middleware('auth');
+Route::get('dashboard/report', [DashboardReportController::class, 'index'])->name('dashboard.report')->middleware('auth');
 
-Route::controller(DashboardCustomerController::class)->group(function () {
+Route::controller(DashboardCustomerController::class)->middleware('auth')->group(function () {
     Route::get('dashboard/customer', 'index')->name('dashboard.customer');
     Route::get('dashboard/customer/{user}', 'show')->name('dashboard.customer.show');
     Route::get('dashboard/customer/{user}/edit', 'edit')->name('dashboard.customer.edit');
@@ -59,19 +59,19 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('actionregister', 'actionregister')->name('actionregister');
 });
 
-Route::controller(UserProfileController::class)->group(function () {
+Route::controller(UserProfileController::class)->middleware('auth')->group(function () {
     Route::get('userprofile', 'index')->name('user.profile');
     Route::get('/userdetailprofile', 'detailUser')->name('user.detail.profile');
     Route::patch('/userdetailprofile/{user}', 'updateDetailUser')->name('update.user.detail.profile');
     Route::post('actionuserprofile', 'actionUserProfile')->name('actionuserprofile');
 });
 
-Route::controller(CartController::class)->group(function () {
+Route::controller(CartController::class)->middleware('auth')->group(function () {
     Route::get('cart', 'index')->name('cart');
     Route::post('cart/add/{id}', 'add')->name('cart.add');
     Route::patch('update-cart/{id}', 'update')->name('cart.edit');
-    Route::patch('cart/{user}', 'updateDetailChekcout')->name('update.detail.checkout');
     Route::delete('remove-from-cart/{cart}', 'destroy')->name('cart.destroy');
     Route::get('checkout', 'checkout')->name('checkout');
     Route::get('checkout/add', 'checkoutPost')->name('checkout.post');
+    Route::patch('cart/{user}', 'updateDetailChekcout')->name('update.detail.checkout');
 });
