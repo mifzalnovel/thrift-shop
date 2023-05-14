@@ -5,6 +5,15 @@
 <div class="slider p-0">
 	<div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
+      @if(session('success'))
+        <div class="alert alert-success text-center" role="alert">
+          {{session('success')}}
+        </div>
+      @elseif (session('error'))
+      <div class="alert alert-danger text-center" role="alert">
+        {{session('error')}}
+      </div>
+      @endif
       <div class="carousel-item active" data-interval="10000">
         <img src="images/cover3.webp" class="d-block w-100" alt="..." style="width:auto;height:800px;">
       </div>

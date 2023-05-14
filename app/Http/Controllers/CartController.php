@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
+use Illuminate\Contracts\Session\Session;
 
 class CartController extends Controller
 {
@@ -88,7 +89,7 @@ class CartController extends Controller
                 'quantity' => $request->quantity,
             ]);
             $cart->save();
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Add Product Successfully');
         } 
 
         if(isset($cart->product_id) && $cart->product_id == $id) {
@@ -99,8 +100,9 @@ class CartController extends Controller
             Order::where('user_id', $user->id)->update([
                 'total_amount' => $total,
             ]);
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Add Product Successfully');
         }
+        
 
         $cart = Cart::create([
             'user_id' => $user->id,
@@ -116,29 +118,107 @@ class CartController extends Controller
             'total_amount' => $total,
         ]);
 
-        return redirect()->back();  
+        return redirect()->back()->with('success', 'Add Product Successfully');  
 
 
     }
 
     public function update(Request $request, Cart $cart)
     {
-        // dd($cart);
-        // $user = Auth::user();
-        // $product = Product::find($id);
-        // $cart = Cart::where('user_id', $user->id)->first();
-        // $order = Order::where('user_id', $user->id)->first();
-        // if($request->id and $request->quantity)
-        // {
-        //     $cart->quantity = $request->quantity;
-        //     $cart->price *= $cart->quantity;
-        //     $cart->save();
-        //     // $ += $cart->price;
-        //     Order::where('user_id', $user->id)->update([
-        //         'total_amount' => $total,
-        //     ]);
-        //     return redirect()->back();
-        // }
+        dd($cart);
+        $user = Auth::user();
+        $product = Product::find($id);
+        $cart = Cart::where('user_id', $user->id)->first();
+        $order = Order::where('user_id', $user->id)->first();
+        if($request->id and $request->quantity)
+        {
+            $cart->quantity = $request->quantity;
+            $cart->price *= $cart->quantity;
+            $cart->save();
+            // $ += $cart->price;
+            Order::where('user_id', $user->id)->update([
+                'total_amount' => $total,
+            ]);
+            return redirect()->back();
+        }
+    }
+
+    public function checkoutPost(Request $request)
+    {
+        // $checkcout = new Checkout;
+        $cart = session()->get('cart');
+        dd($request);
+        
+        $itemOrdered = session()->get('checkout');
+
+        if(!$itemOrdered) {
+            $order = [
+                'total_amount' => $request->total,
+                'status' => 'pending',
+                'name' => $request->name,
+                'email' => $request->email,
+                'address' => $request->address,
+                'city' => $request->city,
+                'zip_code' => $request->zip,
+                'location' => $request->location,
+                'sname' => $request->sname,
+                'semail' => $request->semail,
+                'saddress' => $request->saddress,
+                'scity' => $request->scity,
+                'szip_code' => $request->szip,
+                'slocation' => $request->slocation,
+            ];
+
+            $orderDB = Order::create($order);
+            $orderDB->save();
+
+            foreach ($request->sumQuantity as $item) {
+                $product = Product::findOrFail($item['product_id']);
+                $order->items()->create([
+                    'order_id' => $order->id,
+                    'product_id' => $product->id,
+                    'name' => $product->name,
+                    'quantity' => $item['quantity'],
+                    'price' => $product->price,
+            ]);
+
+            $product->decrement('quantity', $item['quantity']);
+        }
+            return redirect()->back()->with('success', 'Checkout Successful');
+        }
+
+        $order = $itemOrdered->orders()->create([
+            'total_amount' => $request->total,
+            'status' => 'pending',
+            'name' => $request->name,
+            'email' => $request->email,
+            'address' => $request->address,
+            'city' => $request->city,
+            'zip_code' => $request->zip,
+            'location' => $request->location,
+            'sname' => $request->sname,
+            'semail' => $request->semail,
+            'saddress' => $request->saddress,
+            'scity' => $request->scity,
+            'szip_code' => $request->szip,
+            'slocation' => $request->slocation,
+        ]);
+
+        foreach ($request->sumQuantity as $item) {
+            $product = Product::findOrFail($item['product_id']);
+            $order->cart()->create([
+                'order_id' => $order->id,
+                'product_id' => $product->id,
+                'name' => $product->name,
+                'quantity' => $item['quantity'],
+                'price' => $product->price,
+            ]);
+
+            $product->decrement('quantity', $item['quantity']);
+        }
+
+        session()->put('checkout', $itemOrdered);
+        return redirect()->back()->with('success', 'Checkout Successful');
     }
 
     public function updateDetailChekcout(Request $request): RedirectResponse
@@ -162,57 +242,16 @@ class CartController extends Controller
         ]);
         $userDetail->save();
 
-        return redirect('/');
+        $order = Order::create([
+            'user_id' => $user->id,
+            'total_amount' => 0,
+            'status' => 'pending',
+        ]);
+        $order->save();
+
+        return redirect('/product')->with('success', 'Checkout Successful');
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-//     public function store(Request $request)
-// {
-//     // $user = auth()->user();
-//     $cart = new Cart();
-//     $cart->user_id = 1;
-//     $cart->product_id = $request->product_id;
-//     $cart->quantity = $request->quantity;
-//     $cart->save();
-
-//     return redirect()->back()->with('success', 'Product added to cart.');
-// }
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    // public function update(UpdateCartRequest $request, Cart $cart)
-    // {
-    //     //
-    // }
 
     /**
      * Remove the specified resource from storage.
