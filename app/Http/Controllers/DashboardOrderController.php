@@ -67,20 +67,7 @@ class DashboardOrderController extends Controller
     {
         $order = Order::findOrFail($order->id);
         $order->status = $request->input('status');
-        // dd($order->status);
         $order->save();
-        // return response()->json($shipping);
-
-        // $rules = [
-        //     'status' => 'required|in:PENDING,SHIPPING,SUCCESS,FAILED,CANCELLED'
-        // ];
-
-        // $validatedData = $request->validate($rules);
-
-        // Order::where('id', $order->id)
-        //     ->update($validatedData);
-
-        // $order->update($validatedData);
 
         return redirect('/dashboard/order/order');
     }

@@ -17,7 +17,19 @@ class UserProfileFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => fake()->numberBetween(1, 10),
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
+            'city' => fake()->city(),
+            'address' => fake()->address(),
+            'zip_code' => fake()->postcode(),
+            'location' => fake()->numberBetween(1, 10),
+            'sname' => fake()->name(),
+            'semail' => fake()->unique()->safeEmail(),
+            'scity' => fake()->city(),
+            'saddress' => fake()->address(),
+            'szip_code' => fake()->postcode(),
+            'slocation' => fake()->numberBetween(1, 10),
         ];
     }
 }

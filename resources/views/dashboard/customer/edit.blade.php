@@ -27,11 +27,15 @@
 		<hr>
 		<h2>Level User</h2>
 		<form action="/dashboard/customer/{{ $user->id }}" method="post" class="col-8">
+			@method('patch')
 			@csrf
-			@method('put')
 			<div class="mb-3">
-				<label for="status" class="form-label">Level User</label>
-				<select name="status" class="form-control" id="status">
+				<label for="role" class="form-label">Role User</label>
+				<select name="role" class="form-control" id="role">
+					<option value="{{ $user->role }}">{{ $user->role }}</option>
+					<option value="superadmin">Superadmin</option>
+					<option value="admin">Admin</option>	
+					<option value="customer">Customer</option>
 					{{-- <option value="{{ $order->status }}">{{ $order->status }}</option>
 					<option value="Pending">Pending</option>
 					<option value="Processing">Processing</option>

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\User;
+use App\Models\Order;
 use App\Models\Location;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
@@ -70,6 +72,29 @@ class UserProfileController extends Controller
         $userDetail->save();
 
         return view('profile.userDetail');
+    }
+
+    public function orderUser()
+    {
+        $user = Auth::user();
+        $userDetail = UserProfile::where('user_id', $user->id)->first();
+        $locations = Location::all();
+        $orders = Order::where('user_id', $user->id)->get();
+        return view('profile.userOrder', compact('user', 'userDetail', 'locations', 'orders'));
+    }
+
+    public function detailOrderUser(Order $order) 
+    {
+        $user = Auth::user();
+        $userDetail = UserProfile::where('user_id', $user->id)->first();
+        $locations = Location::all();
+        $carts = Cart::where('order_id', $order->id)->get();
+        return view('profile.userOrderDetail', [
+            'order' => $order,
+            'userDetail' => $userDetail,
+            'locations' => $locations,
+            'carts' => $carts
+        ], compact('userDetail', 'locations', 'carts'));
     }
 
     /**
