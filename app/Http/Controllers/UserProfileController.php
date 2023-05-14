@@ -47,9 +47,8 @@ class UserProfileController extends Controller
         return view('profile.userDetail', compact('user', 'userDetail', 'locations'));
     }
 
-    public function updateDetailUser(Request $request): RedirectResponse
+    public function updateDetailUser(Request $request)
     {
-        // dd($request);
         $user = Auth::user();
         $userDetail = UserProfile::where('user_id', $user->id)->first();
 
@@ -70,7 +69,7 @@ class UserProfileController extends Controller
 
         $userDetail->save();
 
-        return redirect('userdetailprofile');
+        return view('profile.userDetail');
     }
 
     /**

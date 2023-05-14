@@ -71,7 +71,7 @@
 		 			</select>
 		 		</div>
 			</fieldset>
-		 	<center><button type="submit" id="submit-order" class="btn btn-success"></button></center>
+		 	<center><p><input type="submit" id="submit-order" value="Submit" class="btn btn-success mb-3" /></p></center>
 		</form>
 	</div>
 </div>

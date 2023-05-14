@@ -28,13 +28,6 @@
             <a href="/dashboard/order/{{ $order->id }}" class="text-decoration-none">
               <span class="badge text-bg-info">Detail</span>
             </a>
-            <form action="/dashboard/order/{{ $order->id }}" method="post" class="d-inline">
-              @method('delete')
-              @csrf
-              <button type="submit" class="badge text-bg-danger border-0">
-                <span>Hapus</span>
-              </button>
-            </form>
           </td>
         </tr>
       @endforeach

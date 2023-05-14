@@ -10,6 +10,7 @@ use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 
@@ -20,9 +21,11 @@ class CartController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $cart = Cart::where('user_id', $user->id)->get()->first();
-        return view('cart', compact('cart'));
+        $userDetail = Auth::user();
+        $carts = Cart::where('user_id', $userDetail->id)->get();
+        $order = Order::where('user_id', $userDetail->id)->get();
+        $locations = Location::all();
+        return view('cart', compact('carts', 'order', 'userDetail', 'locations'));
     }
     
     public function checkout()
@@ -95,17 +98,23 @@ class CartController extends Controller
 
     }
 
-    public function update(Request $request)
+    public function update(Request $request, Cart $cart)
     {
+        dd($cart);
+        $user = Auth::user();
+        $product = Product::find($id);
+        $cart = Cart::where('user_id', $user->id)->first();
+        $order = Order::where('user_id', $user->id)->first();
         if($request->id and $request->quantity)
         {
-            $cart = session()->get('cart');
-
-            $cart[$request->id]["quantity"] = $request->quantity;
-
-            session()->put('cart', $cart);
-
-            session()->flash('success', 'Cart updated successfully');
+            $cart->quantity = $request->quantity;
+            $cart->price *= $cart->quantity;
+            $cart->save();
+            // $ += $cart->price;
+            Order::where('user_id', $user->id)->update([
+                'total_amount' => $total,
+            ]);
+            return redirect()->back();
         }
     }
 
@@ -113,16 +122,17 @@ class CartController extends Controller
     {
         if($request->id) {
 
-            $cart = session()->get('cart');
 
-            if(isset($cart[$request->id])) {
+            // $cart = session()->get('cart');
 
-                unset($cart[$request->id]);
+            // if(isset($cart[$request->id])) {
 
-                session()->put('cart', $cart);
-            }
+            //     unset($cart[$request->id]);
 
-            session()->flash('success', 'Product removed successfully');
+            //     session()->put('cart', $cart);
+            // }
+
+            // session()->flash('success', 'Product removed successfully');
         }
     }
 
@@ -219,6 +229,39 @@ class CartController extends Controller
         // return redirect()->back()->with('success', 'Your order has been placed!');
     }
 
+    public function updateDetailChekcout(Request $request): RedirectResponse
+    {
+        dd($request);
+        $user = Auth::user();
+        $userDetail = UserProfile::where('user_id', $user->id)->first();
+
+        $userDetail->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'city' => $request->city,
+            'address' => $request->address,
+            'zip_code' => $request->zip_code,
+            'location' => $request->location,
+            'sname' => $request->sname,
+            'semail' => $request->semail,
+            'scity' => $request->scity,
+            'saddress' => $request->saddress,
+            'szip_code' => $request->szip_code,
+            'slocation' => $request->slocation,
+        ]);
+
+        $userDetail->save();
+
+        $order = Order::create([
+            'user_id' => $user->id,
+            'total_amount' => 0,
+            'status' => 'pending',
+        ]);
+        $order->save();
+
+        return redirect('home');
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -273,6 +316,7 @@ class CartController extends Controller
      */
     public function destroy(Cart $cart)
     {
-        //
+        Cart::destroy($cart->id);
+        return redirect('/cart');
     }
 }

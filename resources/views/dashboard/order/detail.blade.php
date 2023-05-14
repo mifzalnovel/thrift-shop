@@ -45,19 +45,6 @@
 				@endforeach
 			</tbody>
 		</table>
-		{{-- <table id="checkout-cart" class="shopping-cart">
-			<thead>
-				<tr>
-					<th scope="col">Item</th>
-					<th scope="col">Price</th>
-					<th scope="col">Qty</th>
-					<th scope="col">total</th>
-				</tr>
-			</thead>
-			<tbody>
-				
-			</tbody>
-		</table> --}}
 
 		<div id="pricing">
 			<p id="shipping">

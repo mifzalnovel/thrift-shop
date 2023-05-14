@@ -15,7 +15,7 @@ class DashboardOrderController extends Controller
      */
     public function index()
     {
-        return view('dashboard.order', [
+        return view('dashboard.order.order', [
             'orders' => Order::all()
         ]);
     }
@@ -82,13 +82,13 @@ class DashboardOrderController extends Controller
 
         // $order->update($validatedData);
 
-        return redirect('/dashboard/order');
+        return redirect('/dashboard/order/order');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Order $order)
     {
         //
     }
