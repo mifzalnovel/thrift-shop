@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
+use Illuminate\Contracts\Session\Session;
 
 class CartController extends Controller
 {
@@ -64,7 +65,7 @@ class CartController extends Controller
                 'quantity' => $request->quantity,
             ]);
             $cart->save();
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Add Product Successfully');
         } 
 
         if(isset($cart->product_id) && $cart->product_id == $id) {
@@ -75,8 +76,9 @@ class CartController extends Controller
             Order::where('user_id', $user->id)->update([
                 'total_amount' => $total,
             ]);
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Add Product Successfully');
         }
+        
 
         $cart = Cart::create([
             'user_id' => $user->id,
@@ -92,7 +94,7 @@ class CartController extends Controller
             'total_amount' => $total,
         ]);
 
-        return redirect()->back();  
+        return redirect()->back()->with('success', 'Add Product Successfully');  
 
 
     }
@@ -178,7 +180,7 @@ class CartController extends Controller
         }
 
             // session()->put('checkout', $itemOrdered);
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Checkout Successful');
         }
 
         $order = $itemOrdered->orders()->create([
@@ -212,7 +214,7 @@ class CartController extends Controller
         }
 
         session()->put('checkout', $itemOrdered);
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Checkout Successful');
 
         // return redirect()->route('home');
 
@@ -258,7 +260,7 @@ class CartController extends Controller
         ]);
         $order->save();
 
-        return redirect('/');
+        return redirect('/product')->with('success', 'Checkout Successful');
     }
 
 

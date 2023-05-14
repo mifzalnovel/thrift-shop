@@ -3,8 +3,18 @@
 @section('content')
 
 <section class="new-arrivals">
+      
   <div id="site">
     <div class="container">
+      @if(session('success'))
+        <div class="alert alert-success text-center" role="alert">
+          {{session('success')}}
+        </div>
+      @elseif (session('error'))
+      <div class="alert alert-danger text-center" role="alert">
+        {{session('error')}}
+      </div>
+      @endif
       <div class="title-box">
         <h2>Women's Clothes</h2>
       </div>
