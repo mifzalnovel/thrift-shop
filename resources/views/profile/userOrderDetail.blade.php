@@ -19,31 +19,43 @@
           </tr>
         </thead>
         <tbody>
-          <?php 
-            $total = 0; 
-            $sumQuantity = 0;
-          ?>
-          @foreach($carts as $cart)
             <?php 
-              $total += $cart->price * $cart->quantity;
-              $sumQuantity += $cart->quantity; 
+                $totalPrice = 0;
+                $sumQuantity = 0;
             ?>
-            <tr>
-              <th>{{ $loop->iteration }}</th>
-              <td data-th="Product">
-                <div class="row">
-                  <div class="col-sm-9">
-                    <h4 class="nomargin">{{ $cart->name }}</h4>
-                  </div>
-                </div>
-              </td>
-              <td data-th="Price">${{ $cart->price }}</td>
-              <td data-th="Quantity">
-                  <input type="number" value="{{ $cart->quantity }}" class="form-control quantity" disabled/>
-              </td>
-              <td data-th="Subtotal" class="text-center">${{ $cart->price * $cart->quantity }}</td>
-            </tr>
-          @endforeach
+            @foreach($carts as $cart)
+                <?php 
+                    $total = 0; 
+                    $total = $cart->price * $cart->quantity;
+                    $price = $total / $cart->quantity;
+                    $sumQuantity += $cart->quantity; 
+                    $totalPrice += $total; 
+                ?>
+                <tr>
+                    <th>{{ $loop->iteration }}</th>
+                    <td class="text-center col-lg-4">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-lg-9">
+                                <h4 class="nomargin">{{ $cart->name }}</h4>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center col-lg-2">${{ $price }}</td>
+                    <td >
+                        <input type="number" value="{{ $cart->quantity }}" class="form-control quantity" disabled/>
+                    </td>
+                    <td class="text-center col-lg-4">${{ $cart->price * $cart->quantity }}</td>
+                    <td class="text-center col-lg-4">
+                        <form action="{{ route('cart.destroy', $cart->id) }}" method="post"  class="d-inline" data-token="{{csrf_token()}}">
+                            @method('delete')
+                            @csrf
+                            <button type="submit" class="badge btn-danger border-0">
+                                <span>Hapus</span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
       </table>
   

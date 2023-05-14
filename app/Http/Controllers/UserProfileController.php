@@ -89,12 +89,8 @@ class UserProfileController extends Controller
         $userDetail = UserProfile::where('user_id', $user->id)->first();
         $locations = Location::all();
         $carts = Cart::where('order_id', $order->id)->get();
-        return view('profile.userOrderDetail', [
-            'order' => $order,
-            'userDetail' => $userDetail,
-            'locations' => $locations,
-            'carts' => $carts
-        ], compact('userDetail', 'locations', 'carts'));
+        $order = Order::where('id', $order->id)->first();
+        return view('profile.userOrderDetail', compact('userDetail', 'locations', 'carts', 'order'));
     }
 
     /**
