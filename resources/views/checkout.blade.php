@@ -95,8 +95,8 @@
 		 			<label for="location">Location</label>
 		 			<select name="location" id="location" data-type="string" data-message="This field cannot be empty" required>
 						 <option value="{{ $userDetail->location }}">{{ $userDetail->location }}</option>
-		 				@foreach($locations as $location)
-                            <option value="{{ $location->id }}">{{ $location->name }}</option>
+		 					@foreach($locations as $location)
+								<option value="{{ $location->name }}">{{ $location->name }}</option>
 							@endforeach
 						</select>
 					</div>
@@ -128,8 +128,8 @@
 		 			<select name="slocation" id="slocation" data-type="string" data-message="This field cannot be empty" required>
 						 <option value="{{ $userDetail->slocation }}">{{ $userDetail->slocation }}</option>
 		 				@foreach($locations as $location)
-                            <option value="{{ $location->name }}">{{ $location->name }}</option>
-                        @endforeach
+							<option value="{{ $location->name }}">{{ $location->name }}</option>
+						@endforeach
 		 			</select>
 		 		</div>
 			</fieldset>

@@ -39,16 +39,40 @@ class CartController extends Controller
     }
 
     public function add(Request $request, $id)
-    {       
-        // dd($request); 
+    {      
+        // dd($request);   
+        if($request->quantity === null) {
+            return redirect()->back()->with('error', 'Please input quantity');
+        }
         $user = Auth::user();
         $product = Product::find($id);
-        $cart = Cart::where('user_id', $user->id)->first();
         $order = Order::where('user_id', $user->id)->first();
+        $cart = Cart::where('user_id', $user->id)->first();
         $total = 0;
+        $shipping = 50000;
+        if($order === null || $order->status != "pending") {
+            $total = $product->price * $request->quantity + $shipping;
+            $order = Order::create([
+                'user_id' => $user->id,
+                'total_amount' => $total,
+                'status' => 'pending',
+            ]);
+            $order->save();
+
+            $cart = Cart::create([
+                'user_id' => $user->id,
+                'order_id' => $order->id,
+                'product_id' => $id,
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $request->quantity,
+            ]);
+            $cart->save();
+            return redirect()->back();
+        }
 
         if(!$cart) {
-            $total = $product->price * $request->quantity;
+            $total += $product->price * $request->quantity + $shipping;
             $order = Order::create([
                 'user_id' => $user->id,
                 'total_amount' => $total,
@@ -72,7 +96,7 @@ class CartController extends Controller
             $cart->quantity = $request->quantity;
             $cart->price *= $cart->quantity;
             $cart->save();
-            $total += $cart->price;
+            $total += $cart->price + $shipping;
             Order::where('user_id', $user->id)->update([
                 'total_amount' => $total,
             ]);
@@ -89,7 +113,7 @@ class CartController extends Controller
             'quantity' => $request->quantity,
         ]);
         $cart->save();
-        $total += $cart->price;
+        $total += $cart->price + $shipping;
         Order::where('user_id', $user->id)->update([
             'total_amount' => $total,
         ]);
@@ -116,24 +140,6 @@ class CartController extends Controller
                 'total_amount' => $total,
             ]);
             return redirect()->back();
-        }
-    }
-
-    public function remove(Request $request)
-    {
-        if($request->id) {
-
-
-            // $cart = session()->get('cart');
-
-            // if(isset($cart[$request->id])) {
-
-            //     unset($cart[$request->id]);
-
-            //     session()->put('cart', $cart);
-            // }
-
-            // session()->flash('success', 'Product removed successfully');
         }
     }
 
@@ -178,8 +184,6 @@ class CartController extends Controller
 
             $product->decrement('quantity', $item['quantity']);
         }
-
-            // session()->put('checkout', $itemOrdered);
             return redirect()->back()->with('success', 'Checkout Successful');
         }
 
@@ -215,24 +219,10 @@ class CartController extends Controller
 
         session()->put('checkout', $itemOrdered);
         return redirect()->back()->with('success', 'Checkout Successful');
-
-        // return redirect()->route('home');
-
-        // $checkout = new Checkout;
-        // $checkout->name = $request->input('name');
-        // $checkout->email = $request->input('email');
-        // $checkout->address = $request->input('address');
-        // $checkout->city = $request->input('city');
-        // $checkout->state = $request->input('state');
-        // $checkout->zip = $request->input('zip');
-        // $checkout->save();
-
-        // return redirect()->back()->with('success', 'Your order has been placed!');
     }
 
     public function updateDetailChekcout(Request $request): RedirectResponse
     {
-        // dd($request);
         $user = Auth::user();
         $userDetail = UserProfile::where('user_id', $user->id)->first();
 
@@ -250,7 +240,6 @@ class CartController extends Controller
             'szip_code' => $request->szip_code,
             'slocation' => $request->slocation,
         ]);
-
         $userDetail->save();
 
         $order = Order::create([
@@ -263,54 +252,6 @@ class CartController extends Controller
         return redirect('/product')->with('success', 'Checkout Successful');
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-//     public function store(Request $request)
-// {
-//     // $user = auth()->user();
-//     $cart = new Cart();
-//     $cart->user_id = 1;
-//     $cart->product_id = $request->product_id;
-//     $cart->quantity = $request->quantity;
-//     $cart->save();
-
-//     return redirect()->back()->with('success', 'Product added to cart.');
-// }
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    // public function update(UpdateCartRequest $request, Cart $cart)
-    // {
-    //     //
-    // }
 
     /**
      * Remove the specified resource from storage.

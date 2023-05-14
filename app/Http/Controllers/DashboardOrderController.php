@@ -15,9 +15,13 @@ class DashboardOrderController extends Controller
      */
     public function index()
     {
-        return view('dashboard.order.order', [
-            'orders' => Order::all()
-        ]);
+        if(auth()->user()->role === 'customer') {
+            return redirect('/home');
+        } else {
+            return view('dashboard.order.order', [
+                'orders' => Order::all()
+            ]);
+        }
     }
 
     /**
@@ -41,12 +45,16 @@ class DashboardOrderController extends Controller
      */
     public function show(Order $order)
     {
-        $userDetail = UserProfile::where('user_id', $order->user_id)->first();
-        $locations = Location::all();
-        $carts = Cart::where('order_id', $order->id)->get();
-        return view('dashboard.order.detail', [
-            'order' => $order
-        ], compact('userDetail', 'locations', 'carts'));
+        if(auth()->user()->role === 'customer') {
+            return redirect('/home');
+        } else {
+            $userDetail = UserProfile::where('user_id', $order->user_id)->first();
+            $locations = Location::all();
+            $carts = Cart::where('order_id', $order->id)->get();
+            return view('dashboard.order.detail', [
+                'order' => $order
+            ], compact('userDetail', 'locations', 'carts'));
+        }
     }
 
     /**
@@ -54,10 +62,14 @@ class DashboardOrderController extends Controller
      */
     public function edit(Order $order)
     {
-        $userDetail = $order->user->id;
-        return view('dashboard.order.edit', [
-            'order' => $order
-        ], compact('userDetail'));
+        if(auth()->user()->role === 'customer') {
+            return redirect()->route('home');
+        } else {
+            $userDetail = $order->user->id;
+            return view('dashboard.order.edit', [
+                'order' => $order
+            ], compact('userDetail'));
+        }
     }
 
     /**
@@ -69,7 +81,7 @@ class DashboardOrderController extends Controller
         $order->status = $request->input('status');
         $order->save();
 
-        return redirect('/dashboard/order/order');
+        return redirect('/dashboard/order');
     }
 
     /**

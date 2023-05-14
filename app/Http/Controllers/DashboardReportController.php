@@ -12,13 +12,17 @@ class DashboardReportController extends Controller
 {
     public function index()
     {
-        $users = User::all();
-        $Orders = Order::all();
-        $products = Product::all(); 
-        return view('dashboard.report', [
-            'users' => $users,
-            'orders' => $Orders,
-            'products' => $products
-        ]);
+        if(auth()->user()->role === 'customer') {
+            return redirect()->route('home');
+        } else {
+            $users = User::all();
+            $orders = Order::all();
+            $products = Product::all(); 
+            return view('dashboard.report', [
+                'users' => $users,
+                'orders' => $orders,
+                'products' => $products
+            ]);
+        }
     }
 }

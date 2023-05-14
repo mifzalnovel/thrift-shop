@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Location;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,13 +24,13 @@ class UserProfileFactory extends Factory
             'city' => fake()->city(),
             'address' => fake()->address(),
             'zip_code' => fake()->postcode(),
-            'location' => fake()->numberBetween(1, 10),
+            'location' => '',
             'sname' => fake()->name(),
             'semail' => fake()->unique()->safeEmail(),
             'scity' => fake()->city(),
             'saddress' => fake()->address(),
             'szip_code' => fake()->postcode(),
-            'slocation' => fake()->numberBetween(1, 10),
+            'slocation' => ''
         ];
     }
 }
