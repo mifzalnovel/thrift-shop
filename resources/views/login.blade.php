@@ -12,12 +12,6 @@
         <div class="col-md-4 col-md-offset-4">
             <h2 class="text-center"><b>Admin</b><br>Dashboard</h3>
             <hr>
-            @if (session()->has('success')) 
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-            
             @if(session('error'))
             <div class="alert alert-danger">
                 <b>Opps!</b> {{session('error')}}
@@ -26,21 +20,16 @@
             <form action="{{ route('actionlogin') }}" method="post">
             @csrf
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="name" class="form-control @error('email') is-invalid @enderror" placeholder="Email" required="" value="{{ old('email') }}" autofocus>
-                    @error('email')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="Email" required="">
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="">
+                    <label>Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Password" required="">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Log In</button>
                 <hr>
-                <p class="text-center">Don't have an Account? <a href="{{ route('register') }}">Register</a> Now!</p>
+                <p class="text-center">Belum punya akun? <a href="{{ route('register') }}">Register</a> sekarang!</p>
             </form>
         </div>
     </div>

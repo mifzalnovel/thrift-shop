@@ -21,44 +21,28 @@
             <form action="{{ route('actionregister') }}" method="post">
             @csrf
                 <div class="form-group">
+                    <label><i class="fa fa-envelope"></i> Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="Email" required="">
+                </div>
+                <div class="form-group">
                     <label><i class="fa fa-user"></i> Name</label>
-                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="name" required="" value="{{ old('name') }}">
-                    @error('name')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
+                    <input type="text" name="name" class="form-control" placeholder="name" required="">
                 </div>
                 <div class="form-group">
                     <label><i class="fa fa-user"></i> Username</label>
-                    <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" placeholder="Username" required="" value="{{ old('username') }}">
-                    @error('username')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label><i class="fa fa-envelope"></i> Email</label>
-                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" required="" value="{{ old('email') }}">
-                    @error('email')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
+                    <input type="text" name="username" class="form-control" placeholder="Username" required="">
                 </div>
                 <div class="form-group">
                     <label><i class="fa fa-key"></i> Password</label>
-                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required="" >
-                    @error('password')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
+                    <input type="password" name="password" class="form-control" placeholder="Password" required="">
                 </div>
+                {{-- <div class="form-group">
+                    <label><i class="fa fa-address-book"></i> Role</label>
+                    <input type="text" name="role" class="form-control" value="Guest" readonly>
+                </div> --}}
                 <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-user"></i> Register</button>
                 <hr>
-                <p class="text-center">Already have an Account?<a href="{{ route('login') }}"> Please Login Here!</a></p>
+                <p class="text-center">Sudah punya akun silahkan <a href="{{ route('login') }}">Login Disini!</a></p>
             </form>
         </div>
     </div>
