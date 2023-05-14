@@ -28,13 +28,10 @@
           <td>{{ $product->stock }}</td>
           <td>{{ $product->category }}</td>
           <td>
-            {{-- <a href="/dashboard/product/{{ $product->id }}" class="text-decoration-none">
-              <span class="badge text-bg-info">Detail</span>
-            </a> --}}
-            <a href="/dashboard/product/{{ $product->id }}/edit" class="text-decoration-none">
+            <a href="/dashboard/product/{{ $product->id }}/edit" role="button" class="bnt text-decoration-none">
               <span class="badge text-bg-warning">Edit</span>
             </a>
-            <form action="/dashboard/product/{{ $product->id }}" method="post" class="d-inline">
+            <form action="/dashboard/product/{{ $product->id }}" method="post" class="d-inline" data-token="{{csrf_token()}}">
               @method('delete')
               @csrf
               <button type="submit" class="badge text-bg-danger border-0">
