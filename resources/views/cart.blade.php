@@ -20,13 +20,16 @@
             </thead>
             <tbody>
                 <?php 
-                    $total = 0; 
+                    $totalPrice = 0;
                     $sumQuantity = 0;
                 ?>
                 @foreach($carts as $cart)
                     <?php 
-                        $total += $cart->price * $cart->quantity;
+                        $total = 0; 
+                        $total = $cart->price * $cart->quantity;
+                        $price = $total / $cart->quantity;
                         $sumQuantity += $cart->quantity; 
+                        $totalPrice += $total; 
                     ?>
                     <tr>
                         <th>{{ $loop->iteration }}</th>
@@ -37,7 +40,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="text-center col-lg-2">${{ $cart->price }}</td>
+                        <td class="text-center col-lg-2">${{ $price }}</td>
                         <td >
                             <input type="number" value="{{ $cart->quantity }}" class="form-control quantity" disabled/>
                         </td>
@@ -61,7 +64,7 @@
                 <strong>Shipping</strong>: <span id="sshipping"> $ {{ "50000" }}</span>
             </p>
             <p id="sub-total">
-                <strong>Total</strong>: <span id="stotal">$ {{ $total }}</span>
+                <strong>Total</strong>: <span id="stotal">$ {{ $totalPrice += 50000 }}</span>
             </p>
         </div>
         <hr>

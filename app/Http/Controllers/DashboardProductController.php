@@ -13,9 +13,13 @@ class DashboardProductController extends Controller
      */
     public function index()
     {
-        return view('dashboard.product.product', [
-            'products' => Product::all()
-        ]);
+        if(auth()->user()->role === 'customer') {
+            return redirect()->route('home');
+        } else {
+            return view('dashboard.product.product', [
+                'products' => Product::all()
+            ]);
+        }
     }
 
     /**
@@ -23,7 +27,11 @@ class DashboardProductController extends Controller
      */
     public function create()
     {
-        return view('dashboard.product.create');
+        if(auth()->user()->role === 'customer') {
+            return redirect()->route('home');
+        } else {
+            return view('dashboard.product.create');
+        }
     }
 
     /**
@@ -49,21 +57,19 @@ class DashboardProductController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show(string $id)
-    // {
-    //     return view('dashboard.product.show', [
-    //         'product' => Product::findOrFail($id)
-    //     ]);
-    // }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Product $product)
     {
-        return view('dashboard.product.edit', [
-            'product' => $product
-        ]);
+        if(auth()->user()->role === 'customer') {
+            return redirect()->route('home');
+        } else {
+            return view('dashboard.product.edit', [
+                'product' => $product
+            ]);
+        }
     }
 
     /**

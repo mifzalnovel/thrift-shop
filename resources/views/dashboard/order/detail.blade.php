@@ -119,7 +119,7 @@
 		<h2>Status</h2>
 		<form action="/dashboard/order/{{ $order->id }}" method="post" class="col-8">
 			@csrf
-			@method('put')
+			@method('patch')
 			<div class="mb-3">
 				<label for="status" class="form-label">Status</label>
 				<select name="status" class="form-control" id="status">

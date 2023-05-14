@@ -11,8 +11,12 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $products = Cart::all()->sortByDesc('created_at')->take(5);
-        $users = User::all()->take(5);
-        return view('dashboard.dashboard', compact('products', 'users'));
+        if(auth()->user()->role === 'customer') {
+            return redirect()->route('home');
+        } else {
+            $products = Cart::all()->sortByDesc('created_at')->take(5);
+            $users = User::all()->take(5);
+            return view('dashboard.dashboard', compact('products', 'users'));
+        }
     }
 }

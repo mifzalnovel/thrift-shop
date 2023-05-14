@@ -12,10 +12,14 @@ class DashboardCustomerController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('dashboard..customer.customer', [
-            'users' => $users
-        ], compact('users'));
+        if(auth()->user()->role === 'customer') {
+            return redirect()->route('home');
+        } else {
+            $users = User::all();
+            return view('dashboard..customer.customer', [
+                'users' => $users
+            ], compact('users'));
+        }
     }
 
     /**
@@ -47,9 +51,14 @@ class DashboardCustomerController extends Controller
      */
     public function edit(Request $request, User $user)
     {
-        return view('dashboard.customer.edit', [
-            'user' => $user
-        ]);
+        if(auth()->user()->role === 'customer') {
+            return redirect()->route('home');
+        } else {
+            $user = User::findOrFail($request->id);
+            return view('dashboard.customer.edit', [
+                'user' => $user
+            ]);
+        }
     }
 
     /**
@@ -60,16 +69,6 @@ class DashboardCustomerController extends Controller
         $user = User::findOrFail($id);
         $user->role = $request->input('role');
         $user->save();
-        
-        // $rules = [
-        //     'roles' => 'required',
-        // ];
-
-        // $validatedData = $request->validate($rules);
-
-        // $user = User::findOrFail($id);
-
-        // $user->update($validatedData);
 
         return redirect('/dashboard/customer');
     }
