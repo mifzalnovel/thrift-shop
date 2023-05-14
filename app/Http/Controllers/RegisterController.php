@@ -17,37 +17,17 @@ class RegisterController extends Controller
     
     public function actionregister(Request $request)
     {
-        // Session::flash('username', $request->username);
-        // Session::flash('email', $request->email);
-        // $request->validate([
-        //     'email' => 'required',
-        //     'username' => 'required|unique:users',
-        //     'password' => 'required',
-        // ]);
-        // $user = new User([
-        //     'email' => '$request->email',
-        //     'username' => '$request->username',
-        //     'password' => Hash::make($request->username)
-        // ]);
-        // $user->save();
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            // 'role' => $request->role
+        $validatedData = $request->validate([
+            'name' =>'required',
+            'email' =>'required|email:dns|unique:users',
+            'username' =>'required|unique:users',
+            'password' =>'required|min:6'
         ]);
 
-        // Session::flash('message', 'Register Berhasil. Akun Anda sudah Aktif silahkan Login menggunakan username dan password.');
-        // return redirect('register');
-        // $user = [
-        //     'name' => $request->input('name'),
-        //     'username' => $request->input('username'),
-        //     'email' => $request->input('email'),
-        //     'password' => $request->input('password'),
-        // ];
+        $validatedData['password'] = Hash::make($validatedData['password']);
 
-        return redirect('login');
+        User::create($validatedData);
+
+        return redirect('login')->with('success', 'Registration Successfull! Please Login!');
     }
 }
