@@ -19,13 +19,24 @@ class RegisterController extends Controller
     public function actionregister(Request $request)
     {
         $role = "customer";
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'role' => $role
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'username' => 'required|unique:users',
+            'email' => 'required|email:dns|unique:users',
+            'password' => 'required|min:8'
         ]);
+
+        // $user = User::create([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'username' => $request->username,
+        //     'password' => Hash::make($request->password),
+        //     'role' => $role
+        // ]);
+
+        $validatedData['password'] = Hash::make($validatedData['password']);
+
+        $user = User::create($validatedData);
 
         $userDetail = UserProfile::create([
             'user_id' => $user->id,
@@ -34,6 +45,6 @@ class RegisterController extends Controller
         ]);
         $userDetail->save();
 
-        return redirect('login');
+        return redirect('login')->with('success', 'Registration Successfully');
     }
 }

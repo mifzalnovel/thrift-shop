@@ -12,11 +12,20 @@
         <div class="col-md-4 col-md-offset-4">
             <h2 class="text-center"><b>Admin</b><br>Dashboard</h3>
             <hr>
-            @if(session('error'))
+            @if(session('success'))
+                <div class="alert alert-success text-center" role="alert">
+                {{session('success')}}
+                </div>
+            @elseif (session('error'))
+                <div class="alert alert-danger text-center" role="alert">
+                    <b>Opps! {{session('error')}}</b>
+                </div>
+            @endif
+            {{-- @if(session('error'))
             <div class="alert alert-danger">
                 <b>Opps!</b> {{session('error')}}
             </div>
-            @endif
+            @endif --}}
             <form action="{{ route('actionlogin') }}" method="post">
             @csrf
                 <div class="form-group">

@@ -51,7 +51,7 @@
                 <strong>Shipping</strong>: <span id="sshipping"> $ {{ "50000" }}</span>
             </p>
             <p id="sub-total">
-                <strong>Total</strong>: <span id="stotal">$ {{ $total }}</span>
+                <strong>Total</strong>: <span id="stotal">$ {{ $total + 50000 }}</span>
             </p>
         </div>
 
