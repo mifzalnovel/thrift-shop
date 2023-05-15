@@ -123,30 +123,43 @@ class CartController extends Controller
         }
     }
 
-    public function update(Request $request, Cart $cart)
+    public function update(Request $request, $id)
     {
-        dd($request);
+        // dd($request);
         $user = Auth::user();
         $product = Product::find($id);
         $cart = Cart::where('product_id', $product->id)->first();
         $order = Order::where('user_id', $user->id)->first();
         $total = $order->total_amount;
-        if($id and $request->quantity)
-        {
+        if($id && $request->quantity)
+        {   
+            dd($request);
+            $total -= $request->price * $request->oldquantity;
             $cart->quantity = $request->quantity;
-            $cart->price = $product->price;
             $cart->save();
+
             $total += $cart->price * $cart->quantity;
             Order::where('user_id', $user->id)->update([
                 'total_amount' => $total,
             ]);
+            
+
+            // $total -= $request->price * $request->oldquantity;
+            // Cart::where('product_id', $id)->update([
+            //     'quantity' => $request->quantity,
+            // ]);
+
+            // $total += $request->price * $request->quantity;
+            // Order::where('user_id', $user->id)->update([
+            //     'total_amount' => $total,
+            // ]);
+
             return redirect()->back()->with('success', 'Update Quantity Product Successfully');
         }
     }
 
     public function checkoutPost(Request $request)
     {
-        // $checkcout = new Checkout;
         $cart = session()->get('cart');
         dd($request);
         

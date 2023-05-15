@@ -2,7 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="{{ URL::asset('style/style.css') }}" />
-    <title>Ecommerce Website Store</title>
+    <title>Thrift Shop</title>
 <meta charset="utf-8" />
 <meta name="viewpoint" content="width=device-width,initial-scal=1.0">
 <meta http-equip="X-UA-compatible" content="ie=edge">
