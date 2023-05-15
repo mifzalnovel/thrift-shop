@@ -28,7 +28,7 @@ class LoginController extends Controller
         if (Auth::Attempt($data)) {
             return redirect('/');
         }else{
-            Session::flash('error', 'Email atau Password Salah');
+            Session::flash('error', 'Email or Password is Incorrect');
             return redirect('login');
         }
     }
@@ -36,6 +36,6 @@ class LoginController extends Controller
     public function actionlogout()
     {
         Auth::logout();
-        return redirect('login')->with('success', 'Berhasil Logout');
+        return redirect('login')->with('success', 'Logout Success');
     }
 }

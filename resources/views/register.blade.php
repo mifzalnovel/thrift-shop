@@ -22,19 +22,39 @@
             @csrf
                 <div class="form-group">
                     <label><i class="fa fa-envelope"></i> Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="Email" required="">
+                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" required="" value="{{ old('email') }}" autofocus>
+                    @error('email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label><i class="fa fa-user"></i> Name</label>
-                    <input type="text" name="name" class="form-control" placeholder="name" required="">
+                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="name" required="" value="{{ old('name') }}">
+                    @error('name')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label><i class="fa fa-user"></i> Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="Username" required="">
+                    <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" placeholder="Username" required="" value="{{ old('username') }}">
+                    @error('username')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label><i class="fa fa-key"></i> Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Password" required="">
+                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required="">
+                    @error('password')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 {{-- <div class="form-group">
                     <label><i class="fa fa-address-book"></i> Role</label>

@@ -19,7 +19,7 @@ class DashboardOrderController extends Controller
             return redirect('/home');
         } else {
             return view('dashboard.order.order', [
-                'orders' => Order::all()
+                'orders' => Order::all()->where('total_amount', '>', 0)
             ]);
         }
     }

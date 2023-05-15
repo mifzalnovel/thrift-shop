@@ -79,7 +79,8 @@ class UserProfileController extends Controller
         $user = Auth::user();
         $userDetail = UserProfile::where('user_id', $user->id)->first();
         $locations = Location::all();
-        $orders = Order::where('user_id', $user->id)->get();
+        $orders = Order::where('user_id', $user->id)->
+        where('total_amount', '>', 0)->get();
         return view('profile.userOrder', compact('user', 'userDetail', 'locations', 'orders'));
     }
 
