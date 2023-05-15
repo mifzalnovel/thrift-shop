@@ -51,16 +51,22 @@
                         </td>
                         <td class="text-center col-lg-4">${{ $cart->price * $cart->quantity }}</td>
                         <td class="text-center col-lg-4">
-                            <form action="{{ route('cart.edit', $cart) }}" method="post" class="d-inline">
-                                {{-- @method('patch') --}}
+                            {{-- <form action="{{ route('cart.edit', $cart->id) }}" method="POST">
                                 @csrf
+                                {{ method_field('PATCH') }}
+                                <button>Update</button>
+                            </form> --}}
+                            <form action="{{ route('cart.edit', $cart) }}" method="post" class="d-inline">
+                                @method('patch')
+                                @csrf
+                                <input type="hidden" name="quantity" id="quantity" for="quantity" value="{{ $cart->quantity }}" class="form-control quantity"/>
+                                <input type="hidden" name="oldquantity" id="oldquantity" for="oldquantity" value="{{ $cart->quantity }}" class="form-control quantity"/>
+                                <input type="hidden" name="price" id="price" for="price" value="{{ $cart->price }}" class="form-control quantity"/>
+
                                 <button type="submit" class="badge btn-warning border-0">
                                     <span>Update</span>
                                 </button>
                             </form>
-                            {{-- <a href="{{ route('cart.edit', $cart->id) }}">
-                                <span>Update</span>
-                            </a> --}}
                             <form action="{{ route('cart.destroy', $cart->id) }}" method="post"  class="d-inline" data-token="{{csrf_token()}}">
                                 @method('delete')
                                 @csrf
