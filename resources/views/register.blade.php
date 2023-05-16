@@ -56,10 +56,6 @@
                         </div>
                     @enderror
                 </div>
-                {{-- <div class="form-group">
-                    <label><i class="fa fa-address-book"></i> Role</label>
-                    <input type="text" name="role" class="form-control" value="Guest" readonly>
-                </div> --}}
                 <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-user"></i> Register</button>
                 <hr>
                 <p class="text-center">Sudah punya akun silahkan <a href="{{ route('login') }}">Login Disini!</a></p>

@@ -15,7 +15,6 @@
     <label for="email" class="form-label">Email</label>
     <input type="email" class="form-control" value="{{ $user->email }}" readonly>
   </div>
-
   <div class="d-flex justify-content-end">
     <a href="{{ route('user.detail.profile') }}" class="btn btn-primary border-0">Detail Data User</a>
   </div>

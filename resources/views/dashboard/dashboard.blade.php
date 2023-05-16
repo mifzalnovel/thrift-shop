@@ -2,7 +2,7 @@
 
 @section('dcontent')
 <div class="border-bottom mb-4 col-lg-10">
-  <h2>Newest Selling Product</h2>
+  <h2>Latest Selling Product</h2>
 </div>
 
 <div class="mt-2 col-lg-10">

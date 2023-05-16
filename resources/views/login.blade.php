@@ -21,11 +21,6 @@
                     <b>Opps! {{session('error')}}</b>
                 </div>
             @endif
-            {{-- @if(session('error'))
-            <div class="alert alert-danger">
-                <b>Opps!</b> {{session('error')}}
-            </div>
-            @endif --}}
             <form action="{{ route('actionlogin') }}" method="post">
             @csrf
                 <div class="form-group">

@@ -18,21 +18,12 @@ class RegisterController extends Controller
     
     public function actionregister(Request $request)
     {
-        $role = "customer";
         $validatedData = $request->validate([
             'name' => 'required',
             'username' => 'required|unique:users',
             'email' => 'required|unique:users',
             'password' => 'required|min:8'
         ]);
-
-        // $user = User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'username' => $request->username,
-        //     'password' => Hash::make($request->password),
-        //     'role' => $role
-        // ]);
 
         $validatedData['password'] = Hash::make($validatedData['password']);
 

@@ -13,7 +13,6 @@
       </div>
       <div class="col-md-6 skills-bar">
         
-        
       </div>
     </div>      
   </div>  
