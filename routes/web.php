@@ -74,7 +74,7 @@ Route::controller(CartController::class)->middleware('auth')->group(function () 
     Route::post('cart/add/{id}', 'add')->name('cart.add');
     Route::patch('updatecart/{cart}', 'update')->name('cart.edit');
     Route::delete('remove-from-cart/{cart}', 'destroy')->name('cart.destroy');
-    Route::get('checkout', 'checkout')->name('checkout');
+    Route::get('checkout/{id}', 'checkout')->name('checkout');
     Route::get('checkout/add', 'checkoutPost')->name('checkout.post');
     Route::patch('cart/{user}', 'updateDetailChekcout')->name('update.detail.checkout');
 });

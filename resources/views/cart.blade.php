@@ -86,7 +86,9 @@
         </div>
         <hr>
         <div class="d-flex justify-content-end">
-            <a href="{{ route('checkout') }}" class="btn btn-primary border-0">Checkout</a>
+            @if($cartt)
+                <a href="{{ route('checkout', $cartt->order_id) }}" class="btn btn-primary border-0">Checkout</a>
+            @endif
         </div>
     </div>
 </div>

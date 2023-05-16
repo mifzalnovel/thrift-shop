@@ -11,7 +11,7 @@
 <body>
     <div class="container"><br>
         <div class="col-md-6 col-md-offset-3">
-            <h2 class="text-center">FORM REGISTER USER</h3>
+            <h2 class="text-center">FORM REGISTER</h3>
             <hr>
             @if(session('message'))
             <div class="alert alert-success">

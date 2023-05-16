@@ -38,15 +38,16 @@ class CartController extends Controller
             }
 
             $carts = Cart::where('order_id', $order->id)->where('product_id', '!=', 1)->get();
+            $cartt =  Cart::where('order_id', $order->id)->first();
         } else {
-            $carts = Cart::where('user_id', $userDetail->id)->get();
+            $carts = Cart::where('user_id', $userDetail->id)->first();
         }
 
         $locations = Location::all();
-        return view('cart', compact('carts', 'order', 'userDetail', 'locations'));
+        return view('cart', compact('carts', 'order', 'userDetail', 'locations', 'cartt'));
     }
     
-    public function checkout()
+    public function checkout(Request $request)
     {
         $user = Auth::user();
         $userDetail = UserProfile::where('user_id', $user->id)->first();
@@ -64,7 +65,6 @@ class CartController extends Controller
             $user = Auth::user();
             $product = Product::find($id);
             $order = Order::where('id', $request->order_id)->latest()->first();
-            // $shipping = 50000;
             $total = 50000;
 
             $dumpCart = Cart::where('user_id', $user->id)->where('product_id', 1)->first();
@@ -75,11 +75,7 @@ class CartController extends Controller
             if ($order) {
                 $intOrderid = intval($order->id);
                 if($intOrderid > 1){
-                    $lastOrderid = $intOrderid - 1;
-                    $lastOrder = Order::where('id', $lastOrderid)->first();
-                    
                     if($order->status == "pending" && $order->total_amount == 0) {
-                        // $total = 50000;
                         $total += ($product->price * $request->quantity);
                         $order = Order::create([
                             'user_id' => $user->id,
