@@ -289,6 +289,9 @@ class CartController extends Controller
     {
         $user = Auth::user();
         $userDetail = UserProfile::where('user_id', $user->id)->first();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
 
         $userDetail->update([
             'name' => $request->name,

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StoreUserProfileRequest;
 use App\Http\Requests\UpdateUserProfileRequest;
+use Illuminate\Contracts\Session\Session;
 
 class UserProfileController extends Controller
 {
@@ -53,7 +54,10 @@ class UserProfileController extends Controller
     {
         $user = Auth::user();
         $userDetail = UserProfile::where('user_id', $user->id)->first();
-
+        $locations = Location::all();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
         $userDetail->update([
             'name' => $request->name,
             'email' => $request->email,
@@ -71,7 +75,7 @@ class UserProfileController extends Controller
 
         $userDetail->save();
 
-        return view('profile.userDetail');
+        return view('profile.userDetail', compact('userDetail', 'locations'));
     }
 
     public function orderUser()

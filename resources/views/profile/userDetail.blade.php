@@ -2,10 +2,16 @@
 
 @section('content')
 <div id="site" class="mt-4">
+	@if(session('success'))
+			<div class="alert alert-success text-center" role="alert">
+				{{session('success')}}
+			</div>
+		@endif
 	<div id="content">
 		<h1>Profile</h1>
+		
 		<form 
-			action="{{ route('update.detail.checkout', $userDetail->id) }}" 
+			action="{{ route('update.user.detail.profile', $userDetail->id) }}" 
 			method="post" id="checkout-order-form" 
 			style="background-color: skyblue"
 		>
