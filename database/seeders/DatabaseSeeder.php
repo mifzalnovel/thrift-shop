@@ -17,6 +17,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+         Product::factory()->create([
+            'name' => 'Dummy Product',
+            'price' => 0,
+            'category' => 'Men',
+            'image' => 'https://via.placeholder.com/150',
+            'stock' => 0,
+        ]);
+
         User::factory(10)->create();
         Product::factory(50)->create();
         UserProfile::factory(10)->create();

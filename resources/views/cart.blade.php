@@ -62,6 +62,7 @@
                                 <input type="hidden" name="quantity" id="quantity" for="quantity" value="{{ $cart->quantity }}" class="form-control quantity"/>
                                 <input type="hidden" name="oldquantity" id="oldquantity" for="oldquantity" value="{{ $cart->quantity }}" class="form-control quantity"/>
                                 <input type="hidden" name="price" id="price" for="price" value="{{ $cart->price }}" class="form-control quantity"/>
+                                <input type="hidden" name="order_id" id="order_id" for="order_id" value="{{ $cart->order_id }}">
 
                                 <button type="submit" class="badge btn-warning border-0">
                                     <span>Update</span>

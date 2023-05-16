@@ -23,7 +23,7 @@ class CartController extends Controller
     public function index()
     {
         $userDetail = Auth::user();
-        $order = Order::where('user_id', $userDetail->id)->first();
+        $order = Order::where('user_id', $userDetail->id)->latest()->first();
         if($order !== null) {
             if($order->id > 1){
                 $lastOrderid = $order->id - 1;
@@ -32,14 +32,15 @@ class CartController extends Controller
                     Cart::create([
                         'user_id' => $userDetail->id,
                         'order_id' => $order->id,
-                        'product_id' => 0,
+                        'product_id' => 1,
                         'name' => 'Customer',
                         'price' => 0,
                         'quantity' => 0
                     ]);
                 }
             }
-            $carts = Cart::where('order_id', $order->id)->where('product_id', '!=', 0)->get();
+
+            $carts = Cart::where('order_id', $order->id)->where('product_id', '!=', 1)->get();
         } else {
             $carts = Cart::where('user_id', $userDetail->id)->get();
         }
@@ -65,26 +66,33 @@ class CartController extends Controller
         } else {
             $user = Auth::user();
             $product = Product::find($id);
-            $order = Order::where('user_id', $user->id)->latest()->first();
-            $shipping = 50000;
+            $order = Order::where('id', $request->order_id)->latest()->first();
+            // $shipping = 50000;
+            $total = 50000;
+
+            $dumpCart = Cart::where('user_id', $user->id)->where('product_id', 1)->first();
+            if($dumpCart) {
+                Cart::destroy($dumpCart->id);
+            }
+
             if ($order) {
                 $intOrderid = intval($order->id);
                 if($intOrderid > 1){
                     $lastOrderid = $intOrderid - 1;
                     $lastOrder = Order::where('id', $lastOrderid)->first();
-    
-                    if($lastOrder->status == "pending" && $lastOrder->total_amount == 0) {
-                        $total = 50000;
-                        $total += $product->price * $request->quantity;
-                        dd($total);
+                    
+                    if($order->status == "pending" && $order->total_amount == 0) {
+                        // $total = 50000;
+                        $total += ($product->price * $request->quantity);
                         $order = Order::create([
                             'user_id' => $user->id,
                             'total_amount' => $total,
                             'status' => 'pending',
                         ]);
                         $order->save();
-                        $cart = Cart::where('order_id', $order->id)->first();
-    
+
+                        $order = Order::where('user_id', $user->id)->latest()->first();
+
                         $cart = Cart::create([
                             'user_id' => $user->id,
                             'order_id' => $order->id,
@@ -98,18 +106,17 @@ class CartController extends Controller
                     }
                     $total = $order->total_amount;
                     
-                    $cart = Cart::where('order_id', $order->id)->first();
-                    if(isset($cart->product_id) && $cart->product_id == $id) {
+                    $cart = Cart::where('order_id', $request->order_id)->first();
+                    if(isset($cart->product_id) && $cart->product_id == $request->id) {
                         $total -= $cart->price * $cart->quantity;
                         $cart->quantity += $request->quantity;
                         $cart->save();
                         $total += $cart->price * $cart->quantity;
-                        Order::where('user_id', $user->id)->update([
+                        Order::where('id', $request->order_id)->update([
                             'total_amount' => $total,
                         ]);
                         return redirect()->back()->with('success', 'Update Product Successfully');
                     }
-                    
             
                     $cart = Cart::create([
                         'user_id' => $user->id,
@@ -121,25 +128,54 @@ class CartController extends Controller
                     ]);
                     $cart->save();
                     $total += $cart->price * $cart->quantity;
-                    Order::where('user_id', $user->id)->update([
+                    Order::where('id', $request->order_id)->update([
                         'total_amount' => $total,
                     ]);
             
                     return redirect()->back()->with('success', 'Add Product Successfully');  
-                }            
+                }  elseif($intOrderid == 1) {
+                    $total = $order->total_amount;
+                    // $total += $product->price * $request->quantity;
+                    $cart = Cart::where('order_id', $order->id)->first();
+                    if(isset($cart->product_id) && $cart->product_id == $id) {
+                        $total -= $cart->price * $cart->quantity;
+                        $cart->quantity += $request->quantity;
+                        $cart->save();
+                        $total += $cart->price * $cart->quantity;
+                        Order::where('user_id', $user->id)->update([
+                            'total_amount' => $total,
+                        ]);
+                        return redirect()->back()->with('success', 'Update Product Successfully');
+                    }   
+                    // add new product
+                    $cart = Cart::create([
+                        'user_id' => $user->id,
+                        'order_id' => $order->id,
+                        'product_id' => $id,
+                        'name' => $product->name,
+                        'price' => $product->price,
+                        'quantity' => $request->quantity,
+                    ]);
+                    $cart->save();
+
+                    $total += $cart->price * $cart->quantity;
+                    Order::where('id', $request->order_id)->update([
+                        'total_amount' => $total,
+                    ]);
+                    
+                    return redirect()->back()->with('success', 'Add Product Successfully');
+                }          
             }
             
             if($order === null) {
-                
-                $total = 0;
-                $total = $product->price * $request->quantity + $shipping;
+                $total += $product->price * $request->quantity;
                 $order = Order::create([
                     'user_id' => $user->id,
                     'total_amount' => $total,
                     'status' => 'pending',
                 ]);
                 $order->save();
-                $cart = Cart::where('order_id', $order->id)->first();
+                // $cart = Cart::where('order_id', $order->id)->first();
 
                 $cart = Cart::create([
                     'user_id' => $user->id,
