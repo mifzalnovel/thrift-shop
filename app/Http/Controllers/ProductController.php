@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Session\Session;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use Illuminate\Contracts\Session\Session;
 
 class ProductController extends Controller
 {
@@ -14,11 +16,15 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $order = Order::where('user_id', $user->id)->latest()->first();
+        // $cart = Order::where('order_id', $order->id)->latest()->get();
         $mens = Product::where('category', 'men')->get();
         $womens = Product::where('category', 'women')->get();
         return view('product', [
             'mens' => $mens,
             'womens' => $womens, 
+            'order' => $order
         ]);
     }
 

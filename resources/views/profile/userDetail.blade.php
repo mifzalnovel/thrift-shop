@@ -4,7 +4,11 @@
 <div id="site" class="mt-4">
 	<div id="content">
 		<h1>Profile</h1>
-		<form action="{{ route('update.detail.checkout', $userDetail->id) }}" method="post" id="checkout-order-form" style="background-color: skyblue">
+		<form 
+			action="{{ route('update.detail.checkout', $userDetail->id) }}" 
+			method="post" id="checkout-order-form" 
+			style="background-color: skyblue"
+		>
             @method('patch')
             @csrf
 		 	<h2>Your Details</h2>
@@ -34,14 +38,14 @@
 		 			<label for="location">Location</label>
 		 			<select name="location" id="location" data-type="string" data-message="This field cannot be empty" required>
 						 <option value="{{ $userDetail->location }}">{{ $userDetail->location }}</option>
-		 				@foreach($locations as $location)
-                            <option value="{{ $location->name }}">{{ $location->name }}</option>
-							@endforeach
-						</select>
-					</div>
+		 						@foreach($locations as $location)
+                  <option value="{{ $location->name }}">{{ $location->name }}</option>
+								@endforeach
+					</select>
+				</div>
 			</fieldset>
 		 	<fieldset id="fieldset-shipping">
-				 <legend>Shipping</legend>
+				<legend>Shipping</legend>
 		 		<div>
 					 <label for="sname">Name</label>
 		 			<input type="text" name="sname" id="sname" data-type="string" data-message="This field cannot be empty" value="{{ $userDetail->sname }}" required/>
@@ -65,10 +69,10 @@
 				<div>
 		 			<label for="slocation">Location</label>
 		 			<select name="slocation" id="slocation" data-type="string" data-message="This field cannot be empty" required>
-						 <option value="{{ $userDetail->slocation }}">{{ $userDetail->slocation }}</option>
-		 				@foreach($locations as $location)
-							<option value="{{ $location->name }}">{{ $location->name }}</option>
-						@endforeach
+						<option value="{{ $userDetail->slocation }}">{{ $userDetail->slocation }}</option>
+							@foreach($locations as $location)
+								<option value="{{ $location->name }}">{{ $location->name }}</option>
+							@endforeach
 		 			</select>
 		 		</div>
 			</fieldset>

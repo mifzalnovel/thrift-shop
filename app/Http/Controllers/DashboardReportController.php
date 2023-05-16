@@ -16,8 +16,8 @@ class DashboardReportController extends Controller
             return redirect()->route('home');
         } else {
             $users = User::all();
-            $orders = Order::all();
-            $products = Product::all(); 
+            $orders = Order::where('total_amount', '>', 0)->get();
+            $products = Product::where('name', '!=', 'Dummy Product')->get(); 
             return view('dashboard.report', [
                 'users' => $users,
                 'orders' => $orders,

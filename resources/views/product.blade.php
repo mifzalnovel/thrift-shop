@@ -31,6 +31,9 @@
                 <form class="add-to-cart" action="{{ route('cart.add', $women->id) }}" method="post">
                   @csrf
                   <div class="d-flex flex-row justify-content-center">
+                    @if($order)
+                      <input type="hidden" name="order_id" id="order_id" for="order_id" value="{{ $order->id }}">
+                    @endif
                     <input type="hidden" id="id" name="id" value="{{ $women->id }}" />
                     <label for="quantity">Quantity</label>
                     <input name="quantity" id="quantity" type="number" class="col-4 mx-2 my-2 form-control quantity"/>
@@ -65,6 +68,9 @@
                 <form class="add-to-cart" action="{{ route('cart.add', $men->id) }}" method="post">
                   @csrf
                   <div class="d-flex flex-row justify-content-center">
+                    @if($order)
+                      <input type="hidden" name="order_id" id="order_id" for="order_id" value="{{ $order->id }}">
+                    @endif
                     <input type="hidden" id="id" name="id" value="{{ $men->id }}" />
                     <label for="quantity">Quantity</label>
                     <input name="quantity" id="quantity" type="number" class="col-4 mx-2 my-2 form-control quantity"/>
