@@ -17,7 +17,7 @@ class DashboardProductController extends Controller
             return redirect()->route('home');
         } else {
             return view('dashboard.product.product', [
-                'products' => Product::all()
+                'products' => Product::where('name', '!=', 'Dummy Product')->get()
             ]);
         }
     }

@@ -18,9 +18,8 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         $order = Order::where('user_id', $user->id)->latest()->first();
-        // $cart = Order::where('order_id', $order->id)->latest()->get();
-        $mens = Product::where('category', 'men')->get();
-        $womens = Product::where('category', 'women')->get();
+        $mens = Product::where('category', 'men')->where('name', '!=', 'Dummy Product')->get();
+        $womens = Product::where('category', 'women')->where('name', '!=', 'Dummy Product')->get();
         return view('product', [
             'mens' => $mens,
             'womens' => $womens, 

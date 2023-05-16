@@ -46,8 +46,8 @@
                             </div>
                         </td>
                         <td class="text-center col-lg-2">${{ $price }}</td>
-                        <td >
-                            <form action="{{ route('cart.edit', $cart) }}" method="post" class="d-inline">
+                        <td class="d-flex justify-content-center">
+                            <form action="{{ route('cart.edit', $cart) }}" method="post" class="d-inline text-center">
                                 @method('patch')
                                 @csrf
                                 <input type="number" name="quantity" id="quantity" for="quantity" value="{{ $cart->quantity }}" class="form-control quantity"/>
