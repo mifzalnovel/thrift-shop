@@ -10,7 +10,7 @@
 <body>
     <div class="container"><br>
         <div class="col-md-4 col-md-offset-4">
-            <h2 class="text-center"><b>Admin</b><br>Dashboard</h3>
+            <h2 class="text-center"><b>Login</b></h3>
             <hr>
             @if(session('success'))
                 <div class="alert alert-success text-center" role="alert">
