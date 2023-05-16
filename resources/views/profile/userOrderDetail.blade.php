@@ -45,15 +45,6 @@
                         <input type="number" value="{{ $cart->quantity }}" class="form-control quantity" disabled/>
                     </td>
                     <td class="text-center col-lg-4">${{ $cart->price * $cart->quantity }}</td>
-                    <td class="text-center col-lg-4">
-                        <form action="{{ route('cart.destroy', $cart->id) }}" method="post"  class="d-inline" data-token="{{csrf_token()}}">
-                            @method('delete')
-                            @csrf
-                            <button type="submit" class="badge btn-danger border-0">
-                                <span>Hapus</span>
-                            </button>
-                        </form>
-                    </td>
                 </tr>
             @endforeach
         </tbody>
